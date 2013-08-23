@@ -25,17 +25,24 @@ then
   fail "missing or empty hostname, please check your wercker.yml"
 fi
 
-#ssh_keyscan_result=`mktemp`
+ssh_keyscan_command="ssh-keyscan"
 
-# get host information using ssh-keyscan <hostname>
-# write content to a <temporary_file1>
-ssh_keyscan_result=`ssh-keyscan $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME`
+if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_PORT" ] ; then
+    ssh_keyscan_command="$ssh_keyscan_command $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"
+  else
+    ssh_keyscan_command="$ssh_keyscan_command -p $WERCKER_ADD_TO_KNOWN_HOSTS_PORT $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"
+fi
+
+ssh_keyscan_result=`$ssh_keyscan_command`
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
+
   echo $ssh_keyscan_result >> $known_hosts_path
   warn "Skipped checking public key with fingerprint, this setup is vulnerable to a man in the middle attack"
   success "Successfully added host $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME to known_hosts"
+
 else
+
   debug "Searching for keys that match fingerprint $WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT"
   echo $ssh_keyscan_result | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=`mktemp`
@@ -50,12 +57,4 @@ else
     rm -f $ssh_key_path
   done
 
-  # fail "Checking fingerprint not supported yet"
-  # split <temporary_file1> by enters into <lines>
-  # foreach line in <lines>
-  # write to <temporary_file2>
-  # use ssh-keygen -l -f <temporary_file2> to calculate fingerprint
-  # verify output contains <fingerprint>
-  # if it does, append <temporary_file2> to ~/.ssh/known_hosts
-  # end foreach
 fi
