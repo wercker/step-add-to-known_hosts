@@ -1,6 +1,6 @@
 # Add to known_hosts
 
-A wercker step to use ssh-keyscan to add a host to the known_hosts file. 
+A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
@@ -57,6 +57,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
 
-## 1.0.0
+## 1.1.0
 
 - Initial release
