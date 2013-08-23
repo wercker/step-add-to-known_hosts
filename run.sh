@@ -39,7 +39,7 @@ else
   debug "Searching for keys that match fingerprint $WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT"
   echo $ssh_keyscan_result | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=`mktemp`
-    $ssh_key > $ssh_key_path
+    echo $ssh_key > $ssh_key_path
     ssh_key_fingerprint=`ssh-keygen -l -f $ssh_key_path | awk "{print $2}"`
     if [[ "$ssh_key_fingerprint" == *$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT* ]] ; then
       debug "Added a key to known_hosts"
