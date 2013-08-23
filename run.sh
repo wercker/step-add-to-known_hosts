@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-set -v
 
 # make sure $HOME/.ssh exists
 if [ ! -d "$HOME/.ssh" ]; then
