@@ -45,7 +45,7 @@ else
       debug "Added a key to known_hosts"
       echo $ssh_key >> $known_hosts_path
     else
-      warn "Skipped adding a key to known_hosts, it did not match the fingerprint"
+      warn "Skipped adding a key to known_hosts, it did not match the fingerprint ($ssh_key_fingerprint)"
     fi
     rm -f $ssh_key_path
   done
