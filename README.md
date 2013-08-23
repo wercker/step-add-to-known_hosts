@@ -4,7 +4,7 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
-*Add badge here*
+[![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
 # What's new
 
