@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+set -v
 
 # make sure $HOME/.ssh exists
 if [ ! -d "$HOME/.ssh" ]; then
@@ -47,7 +48,7 @@ else
     else
       warn "Skipped adding a key to known_hosts, it did not match the fingerprint"
     fi
-    rm -f ssh_key_path
+    rm -f $ssh_key_path
   done
 
   # fail "Checking fingerprint not supported yet"

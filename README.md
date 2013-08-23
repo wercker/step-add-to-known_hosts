@@ -8,7 +8,8 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 # What's new
 
-- Initial release
+- Implement filter by fingerprint
+- Implement port
 
 # Options
 
@@ -56,6 +57,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
+
+## 1.2.0
+
+- Implement filter by fingerprint
+- Implement port
 
 ## 1.1.0
 
