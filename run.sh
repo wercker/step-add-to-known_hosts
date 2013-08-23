@@ -29,10 +29,10 @@ ssh_keyscan_result=`mktemp`
 
 # get host information using ssh-keyscan <hostname>
 # write content to a <temporary_file1>
-ssh-keyscan $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME > ssh_keyscan_result
+ssh-keyscan $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME > $ssh_keyscan_result
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
-  echo $ssh_keyscan_result >> $HOME/.ssh/known_hosts
+  cat $ssh_keyscan_result >> $known_hosts_path
   warn "Skipped checking public key with fingerprint, this setup is vulnerable to man in the middle attack"
   success "Successfully added host $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME to known_hosts"
 else
