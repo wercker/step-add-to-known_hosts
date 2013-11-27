@@ -50,7 +50,7 @@ else
     echo $ssh_key > $ssh_key_path
     ssh_key_fingerprint=`ssh-keygen -l -f $ssh_key_path | awk '{print $2}'`
     if [[ "$ssh_key_fingerprint" == *$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT* ]] ; then
-      debug "Added a key to known_hosts"
+      debug "Added a key to $known_hosts_path"
       echo $ssh_key | sudo tee -a $known_hosts_path
     else
       warn "Skipped adding a key to known_hosts, it did not match the fingerprint ($ssh_key_fingerprint)"
