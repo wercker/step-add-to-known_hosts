@@ -16,7 +16,7 @@ fi
 
 if [ ! -f "$known_hosts_path" ]; then
   debug "$known_hosts_path does not exists, touching it and chmod it to 600"
-  touch $known_hosts_path
+  sudo touch $known_hosts_path
   chmod 600 $known_hosts_path
 fi
 
@@ -42,7 +42,7 @@ ssh_keyscan_result=`$ssh_keyscan_command`
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
 
-  echo $ssh_keyscan_result >> $known_hosts_path
+  echo $ssh_keyscan_result | sudo tee -a $known_hosts_path
   warn "Skipped checking public key with fingerprint, this setup is vulnerable to a man in the middle attack"
   success "Successfully added host $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME to known_hosts"
 
@@ -55,7 +55,7 @@ else
     ssh_key_fingerprint=`ssh-keygen -l -f $ssh_key_path | awk '{print $2}'`
     if [[ "$ssh_key_fingerprint" == *$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT* ]] ; then
       debug "Added a key to known_hosts"
-      echo $ssh_key >> $known_hosts_path
+      echo $ssh_key | sudo tee -a $known_hosts_path
     else
       warn "Skipped adding a key to known_hosts, it did not match the fingerprint ($ssh_key_fingerprint)"
     fi
