@@ -20,10 +20,6 @@ if [ ! -f "$known_hosts_path" ]; then
   sudo chmod 600 $known_hosts_path
 fi
 
-if [ ! -w "$known_hosts_path" ]; then
-  fail "$known_hosts_path exists, but it not writeable"
-fi
-
 # validate <hostname> exists
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME" ]
 then
