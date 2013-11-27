@@ -17,7 +17,7 @@ fi
 if [ ! -f "$known_hosts_path" ]; then
   debug "$known_hosts_path does not exists, touching it and chmod it to 600"
   sudo touch $known_hosts_path
-  chmod 600 $known_hosts_path
+  sudo chmod 600 $known_hosts_path
 fi
 
 if [ ! -w "$known_hosts_path" ]; then
