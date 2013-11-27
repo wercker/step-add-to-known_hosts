@@ -8,14 +8,14 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 # What's new
 
-- Implement filter by fingerprint
-- Implement port
+- Add fingerprints to global file
 
 # Options
 
 * `hostname` (required) The hostname to scan for a public ssh key.
 * `fingerprint` (optional) Only add the public key to `known_hosts` if it matches this fingerprint.
 * `port` (optional) Probe the ssh server on the following port.
+* `local` (optional) Default: `false`. Set to true to add the known_host to the local known_hosts file.
 
 # Example
 
@@ -57,6 +57,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
+
+## 1.3.0
+
+- Add fingerprints to global file
 
 ## 1.2.0
 
