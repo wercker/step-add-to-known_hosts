@@ -15,9 +15,9 @@ if [ "$WERCKER_ADD_TO_KNOWN_HOSTS_LOCAL" == "false" ]; then
 fi
 
 if [ ! -f "$known_hosts_path" ]; then
-  debug "$known_hosts_path does not exists, touching it and chmod it to 600"
+  debug "$known_hosts_path does not exists, touching it and chmod it to 644"
   sudo touch $known_hosts_path
-  sudo chmod 600 $known_hosts_path
+  sudo chmod 644 $known_hosts_path
 fi
 
 # validate <hostname> exists
