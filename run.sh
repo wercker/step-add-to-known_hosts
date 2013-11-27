@@ -7,7 +7,12 @@ if [ ! -d "$HOME/.ssh" ]; then
   mkdir -p $HOME/.ssh
 fi
 
-known_hosts_path="$HOME/.ssh/known_hosts"
+# Write to system wide file by default
+known_hosts_path="/etc/ssh/ssh_known_hosts"
+
+if [ "$WERCKER_ADD_TO_KNOWN_HOSTS_LOCAL" == "true" ]; then
+  known_hosts_path="$HOME/.ssh/known_hosts"
+fi
 
 if [ ! -f "$known_hosts_path" ]; then
   debug "$known_hosts_path does not exists, touching it and chmod it to 600"
