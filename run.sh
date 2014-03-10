@@ -34,18 +34,20 @@ if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_PORT" ] ; then
     ssh_keyscan_command="$ssh_keyscan_command -p $WERCKER_ADD_TO_KNOWN_HOSTS_PORT $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"
 fi
 
-ssh_keyscan_result=`$ssh_keyscan_command`
+ssh_keyscan_result=`mktemp`
+
+$ssh_keyscan_command > $ssh_keyscan_result
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
 
-  echo $ssh_keyscan_result | sudo tee -a $known_hosts_path
+  cat $ssh_keyscan_result | sudo tee -a $known_hosts_path
   warn "Skipped checking public key with fingerprint, this setup is vulnerable to a man in the middle attack"
   success "Successfully added host $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME to known_hosts"
 
 else
 
   debug "Searching for keys that match fingerprint $WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT"
-  echo $ssh_keyscan_result | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
+  cat $ssh_keyscan_result | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=`mktemp`
     echo $ssh_key > $ssh_key_path
     ssh_key_fingerprint=`ssh-keygen -l -f $ssh_key_path | awk '{print $2}'`
