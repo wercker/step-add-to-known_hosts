@@ -8,7 +8,7 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 # What's new
 
-- Add fingerprints to global file
+- Fix issue if server returns multiple keys and fingerprint was used
 
 # Options
 
@@ -57,6 +57,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
+
+## 1.3.1 
+
+- Fix issue if server returns multiple keys and fingerprint was used
 
 ## 1.3.0
 
