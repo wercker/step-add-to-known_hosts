@@ -26,7 +26,14 @@ then
   fail "missing or empty hostname, please check your wercker.yml"
 fi
 
-ssh_keyscan_command="ssh-keyscan -t rsa1,rsa,dsa,ecdsa"
+if [ -n "$WERCKER_ADD_TO_KNOWN_HOSTS_TYPE" ]; then
+  types="$WERCKER_ADD_TO_KNOWN_HOSTS_TYPE"
+else
+  types="rsa,dsa,ecdsa"
+fi
+
+ssh_keyscan_command="ssh-keyscan -t $types"
+
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_PORT" ] ; then
     ssh_keyscan_command="$ssh_keyscan_command $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"

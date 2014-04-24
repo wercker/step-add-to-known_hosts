@@ -8,14 +8,15 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 
 # What's new
 
-- Fix issue if server returns multiple keys and fingerprint was used
+- Add support to specify a key type
 
 # Options
 
 * `hostname` (required) The hostname to scan for a public ssh key.
 * `fingerprint` (optional) Only add the public key to `known_hosts` if it matches this fingerprint.
+* `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
-* `local` (optional) Default: `false`. Set to true to add the known_host to the local known_hosts file.
+* `local` (optional) Set to true to add the host to the local `known_hosts` file (default: `false`).
 
 # Example
 
@@ -58,7 +59,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
 
-## 1.3.1 
+## 1.4.0
+
+- Add support to specify a key type
+
+## 1.3.1
 
 - Fix issue if server returns multiple keys and fingerprint was used
 
