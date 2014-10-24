@@ -16,7 +16,7 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 * `fingerprint` (optional) Only add the public key to `known_hosts` if it matches this fingerprint.
 * `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
-* `local` (optional) Set to true to add the host to the local `known_hosts` file (default: `false`).
+* `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
 
 # Example
 
