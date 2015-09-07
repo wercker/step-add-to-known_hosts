@@ -1,10 +1,16 @@
 # Add to known_hosts
 
-A wercker step to use ssh-keyscan to add a host to the known_hosts file.
+A wercker step to use ssh-keyscan to add a host to the known_hosts file. This step requires 
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
 [![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
+
+# Dependencies
+
+- `mktemp`
+- `ssh-keyscan`
+- `ssh-keygen`
 
 # What's new
 
