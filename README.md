@@ -37,6 +37,22 @@ deploy:
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
 
+# FAQ
+
+__ Step fails with the message: "... Cause: ssh-client software probably not installed." __
+
+It looks like there's no ssh client software installed. This is probably resolved by adding an install-packages step that installs an openssh-client (works on ubuntu/debian based
+containers):
+
+```
+build:
+  steps:
+    - install-packages:
+        packages: openssh-client
+    - add-to-known_hosts:
+        ...
+```
+
 # Getting a fingerprint
 
 ...
