@@ -1,6 +1,6 @@
 # Add to known_hosts
 
-A wercker step to use ssh-keyscan to add a host to the known_hosts file. This step requires 
+A wercker step to use ssh-keyscan to add a host to the known_hosts file. This step requires
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
@@ -14,7 +14,8 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 
 # What's new
 
-- Add support to specify a key type
+- improved error message when `/etc/ssh` does not exist (and not adding it locally)
+- improved error message when `ssh-keyscan` can't be found
 
 # Options
 
@@ -64,6 +65,11 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Changelog
+
+## 2.0.0
+
+- improved error message when `/etc/ssh` does not exist (and not adding it locally)
+- improved error message when `ssh-keyscan` can't be found
 
 ## 1.4.0
 
