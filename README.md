@@ -1,23 +1,24 @@
 # Add to known_hosts
 
-A wercker step to use ssh-keyscan to add a host to the known_hosts file. This step requires
+A wercker step to use ssh-keyscan to add a host to the known_hosts file. This step requires 
+`ssh-keyscan` to be installed.
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
 [![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
-# Dependencies
+## Dependencies
 
 - `mktemp`
 - `ssh-keyscan`
 - `ssh-keygen`
 
-# What's new
+## What's new
 
 - improved error message when `/etc/ssh` does not exist (and not adding it locally)
 - improved error message when `ssh-keyscan` can't be found
 
-# Options
+## Options
 
 * `hostname` (required) The hostname to scan for a public ssh key.
 * `fingerprint` (optional) Only add the public key to `known_hosts` if it matches this fingerprint.
@@ -25,7 +26,7 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
 
-# Example
+## Example
 
 Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`
 
@@ -37,7 +38,7 @@ deploy:
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
 
-# FAQ
+## FAQ
 
 __ Step fails with the message: "... Cause: ssh-client software probably not installed." __
 
@@ -53,11 +54,11 @@ build:
         ...
 ```
 
-# Getting a fingerprint
+## Getting a fingerprint
 
 ...
 
-# License
+## License
 
 The MIT License (MIT)
 
@@ -80,30 +81,30 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Changelog
+## Changelog
 
-## 2.0.0
+### 2.0.0
 
 - improved error message when `/etc/ssh` does not exist (and not adding it locally)
 - improved error message when `ssh-keyscan` can't be found
 
-## 1.4.0
+### 1.4.0
 
 - Add support to specify a key type
 
-## 1.3.1
+### 1.3.1
 
 - Fix issue if server returns multiple keys and fingerprint was used
 
-## 1.3.0
+### 1.3.0
 
 - Add fingerprints to global file
 
-## 1.2.0
+### 1.2.0
 
 - Implement filter by fingerprint
 - Implement port
 
-## 1.1.0
+### 1.1.0
 
 - Initial release
