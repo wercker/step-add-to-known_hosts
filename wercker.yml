@@ -1,0 +1,5 @@
+box: wercker/ubuntu12.04-nodejs0.10
+build:
+    steps:
+        - validate-wercker-step
+        - shellcheck
