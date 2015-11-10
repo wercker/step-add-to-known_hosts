@@ -83,6 +83,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Changelog
 
+### 2.0.1
+- bug fix: incorrect use of `>`: known_hosts file was not updated
+
 ### 2.0.0
 
 - improved error message when `/etc/ssh` does not exist (and not adding it locally)

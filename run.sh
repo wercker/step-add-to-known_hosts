@@ -15,7 +15,7 @@ if [ "$WERCKER_ADD_TO_KNOWN_HOSTS_LOCAL" = "true" ]; then
   known_hosts_path="$HOME/.ssh/known_hosts"
 else
   if [ ! -d "$root_ssh_path" ]; then
-    fail "/etc/ssh does not exist. Cause: ssh-client software probably not installed."
+    fail "$root_ssh_path does not exist. Cause: ssh-client software probably not installed."
   fi
 fi
 
@@ -61,16 +61,16 @@ ssh_keyscan_result=$(mktemp)
 $ssh_keyscan_command > "$ssh_keyscan_result"
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
-
-  < "$ssh_keyscan_result" | sudo tee -a "$known_hosts_path"
+  # shellcheck disable=SC2002
+  cat "$ssh_keyscan_result" | sudo tee -a "$known_hosts_path"
   warn "Skipped checking public key with fingerprint, this setup is vulnerable to a man in the middle attack"
   success "Successfully added host $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME to known_hosts"
 
 else
 
   debug "Searching for keys that match fingerprint $WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT"
-  # shellcheck disable=SC2162
-  < "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
+  # shellcheck disable=SC2162,SC2002
+  cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
     ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" | awk '{print $2}')
