@@ -7,6 +7,29 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 
 [![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
+## GitHub
+
+The following example adds GitHub's SSH key to the known_hosts file, using the
+correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/):
+
+```yaml
+- add-to-known_hosts:
+    hostname: github.com
+    fingerprint: 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48
+    type: rsa
+```
+
+## Bitbucket
+
+The following example adds Bitbucket's SSH key to the known_hosts file, using
+the correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints://confluence.atlassian.com/bitbucket/use-the-ssh-protocol-with-bitbucket-cloud-221449711.html/):
+
+```yaml
+- add-to-known_hosts:
+    hostname: bitbucket.org
+    fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
+    type: rsa
+```
 ## Dependencies
 
 - `mktemp`
@@ -83,7 +106,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Changelog
 
+### 2.0.2
+
+- Add example section for GithHub and Bitbucket's SSH key's
+
 ### 2.0.1
+
 - bug fix: incorrect use of `>`: known_hosts file was not updated
 
 ### 2.0.0
