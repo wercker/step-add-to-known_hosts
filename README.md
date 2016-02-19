@@ -22,7 +22,7 @@ correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-
 ## Bitbucket
 
 The following example adds Bitbucket's SSH key to the known_hosts file, using
-the correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints://confluence.atlassian.com/bitbucket/use-the-ssh-protocol-with-bitbucket-cloud-221449711.html/):
+the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-protocol-with-bitbucket-cloud-221449711.html):
 
 ```yaml
 - add-to-known_hosts:
