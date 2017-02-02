@@ -7,6 +7,11 @@ if [ ! -d "$HOME/.ssh" ]; then
   mkdir -p "$HOME/.ssh"
 fi
 
+if [ ! -d "/etc/ssh" ]; then
+  debug "/etc/ssh does not exists, creating it"
+  mkdir -p /etc/ssh
+fi
+
 # Write to system wide file by default
 root_ssh_path="/etc/ssh"
 known_hosts_path="$root_ssh_path/ssh_known_hosts"
