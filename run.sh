@@ -73,7 +73,7 @@ else
   cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
-    ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" | awk '{print $2}')
+    ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" -E md5 | awk '{print $2}')
     if echo "$ssh_key_fingerprint" | grep -q "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ; then
       debug "Added a key to $known_hosts_path"
       echo "$ssh_key" | sudo tee -a "$known_hosts_path"
