@@ -48,6 +48,7 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
 * `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
+* `timeout` (optional) Set timeout for connection attempts in `ssh-keyscan` (default: `10` seconds).
 
 ## Example
 
