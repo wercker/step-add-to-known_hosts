@@ -73,7 +73,7 @@ else
   cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
-    if [ -z $convert_format ] ; then
+    if [ -z "$convert_format" ] ; then
       # check to verify if -E option is supported by ssh command
       set +e
       ssh-keygen -l -f "$ssh_key_path" -E md5 2>/dev/null
