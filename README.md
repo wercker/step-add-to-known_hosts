@@ -21,6 +21,15 @@ correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-
     type: rsa
 ```
 
+SHA256/base64 format:
+
+```yaml
+- add-to-known_hosts:
+    hostname: github.com
+    fingerprint: nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
+    type: rsa
+```
+
 ## Bitbucket
 
 The following example adds Bitbucket's SSH key to the known_hosts file, using
@@ -32,6 +41,16 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
     fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
     type: rsa
 ```
+
+SHA256/base64 format:
+
+```yaml
+- add-to-known_hosts:
+    hostname: bitbucket.org
+    fingerprint: zzXQOXSRBEiUtuE8AikJYKwbHaxvSc0ojez9YXaGp1A
+    type: rsa
+```
+
 ## Dependencies
 
 - `mktemp`
@@ -81,26 +100,6 @@ deploy:
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
 
-Define key fingerprint for github
-
-```yaml
-deploy:
-  steps:
-    - add-to-known_hosts:
-        hostname: github.com
-        fingerprint: nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
-```
-
-
-Define key fingerprint for bitbucket
-
-```yaml
-deploy:
-  steps:
-    - add-to-known_hosts:
-        hostname: bitbucket.org
-        fingerprint: zzXQOXSRBEiUtuE8AikJYKwbHaxvSc0ojez9YXaGp1A
-```
 ## FAQ
 
 __Step fails with the message: "... Cause: ssh-client software probably not installed."__
