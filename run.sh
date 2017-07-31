@@ -73,7 +73,23 @@ else
   cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
-    ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" -E md5 | awk '{print $2}')
+    if [ -z $convert_format ] ; then
+      # check to verify if -E option is supported by ssh command
+      set +e
+      ssh-keygen -l -f "$ssh_key_path" -E md5 2>/dev/null
+      result=$?
+      set -e
+      convert_format=1
+      if [ $result -ne 0 ] ; then
+        echo "ssh-keygen doesn't support -E option"
+        convert_format=0
+      fi
+    fi
+    if [ $convert_format -eq 1 ] ; then
+        ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" -E md5 | awk '{print $2}')
+    else
+        ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" | awk '{print $2}')
+    fi
     if echo "$ssh_key_fingerprint" | grep -q "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ; then
       debug "Added a key to $known_hosts_path"
       echo "$ssh_key" | sudo tee -a "$known_hosts_path"
