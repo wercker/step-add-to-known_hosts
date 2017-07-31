@@ -146,8 +146,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Changelog
 
+### 2.0.4
+- Add the `use-md5` option to force the use of the `-E` flag in the ssh-keygen command.
+
 ### 2.0.3
-- bug fix: Add the '-E' flag to the ssh-keygen command to report the fingerprint in the MD5/hex format.
+- bug fix: Add the `-E` flag to the ssh-keygen command to report the fingerprint in the `MD5/hex` format.
 
 ### 2.0.2
 
