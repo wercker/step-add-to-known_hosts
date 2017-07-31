@@ -50,7 +50,13 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
 * `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
-* `use-md5` (optional) Set to `true` to use `MD5/hex` format for the key fingerprint. Please note that if you are using OpenSSH version equal or greater than 6.8 the fingerprint are reported in `SHA256/base64` format by default, that means that if you have your key fingerprint specified in `MD5/hex ` format you have either to change your wercker.yml and specify the `SHA256` format of your key fingerprint or set the `use-md5` parameter to `true` (default: `false`).
+* `use-md5` (optional) Set to `true` to use `MD5/hex` format for the key
+fingerprint. Please note that if you are using OpenSSH version equal or
+greater than 6.8 the fingerprint are reported in `SHA256/base64` format by
+default, that means that if you have your key fingerprint specified in
+`MD5/hex` format you have either to change your wercker.yml and specify the
+`SHA256` format of your key fingerprint or set the `use-md5` parameter to
+`true` (default: `false`).
 
 ## Example
 
@@ -75,7 +81,26 @@ deploy:
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
 
+Define key fingerprint for github
 
+```yaml
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: github.com
+        fingerprint: nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
+```
+
+
+Define key fingerprint for bitbucket
+
+```yaml
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: bitbucket.org
+        fingerprint: zzXQOXSRBEiUtuE8AikJYKwbHaxvSc0ojez9YXaGp1A
+```
 ## FAQ
 
 __Step fails with the message: "... Cause: ssh-client software probably not installed."__
