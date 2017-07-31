@@ -5,9 +5,9 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
-[![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
+Please note that if you run OpenSSH version equals or greater than 6.8 the fingerprint is reported by default in the `SHA256/base64` format.
 
-The fingerprint has to be in MD5/hex format, starting from the OpenSSH version 6.8 the fingerprints are reported by default in SHA256/Base64, to get the MD5/hex version we use the new FingerprintHash flag of the ssk-keygen command, that flag is supported by the OpneSSH 6.8 version.
+[![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
 ## GitHub
 
@@ -50,10 +50,11 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
 * `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
+* `use-md5` (optional) Set to `true` to use `MD5/hex` format for the key fingerprint. Please note that if you are using OpenSSH version equal or greater than 6.8 the fingerprint are reported in `SHA256/base64` format by default, that means that if you have your key fingerprint specified in `MD5/hex ` format you have either to change your wercker.yml and specify the `SHA256` format of your key fingerprint or set the `use-md5` parameter to `true` (default: `false`).
 
 ## Example
 
-Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`
+Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`, using OpenSSH version < 6.8
 
 ``` yaml
 deploy:
@@ -62,6 +63,18 @@ deploy:
         hostname: ssh.example.com
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
+
+Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`, using OpenSSH version >= 6.8
+
+``` yaml
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: ssh.example.com
+        use-md5: "true"
+        fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
+```
+
 
 ## FAQ
 
@@ -78,24 +91,6 @@ build:
     - add-to-known_hosts:
         ...
 ```
-
-__Step fails with the message: "...unknown option -- E"__
-
-It looks like the OpenSSH version is older than OpenSSH 6.8 so the new FingerprintHash flag (-E) is not supported, to fix the issue you can update the version of OpenSSH or downgrade the version of the step, to do that in your wercker.yml write you can specify the version you want to use, for example:
-
-```
-- add-to-known_hosts@2.0.1:
-     hostname: <HOSTNAME>
-     fingerprint: <FINGERPRINT>
-
-```
-
-__Step fails with the message "...Skipped adding a key to known_hosts, it did not match the fingerprint (SHA256:...)"__
-
-It looks like that the fingerprint is reported in the format SHA256/base64, to fix the issue if the OpenSSH version is equal or greater than 6.8 you can try to use the 2.0.3 version of the step which converts the format from SHA256/base64 to MD5/hex.
-If you have the same error, then please verify that you put the correct fingerprint in your wercker.yml file.
-
-If it is not possible to upgrade the version of OpenSSH you can specify in your wercker.yml the fingerprint in the SHA256/base64 format.
 
 ## Getting a fingerprint
 

@@ -60,6 +60,7 @@ ssh_keyscan_result=$(mktemp)
 
 $ssh_keyscan_command > "$ssh_keyscan_result"
 
+
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_FINGERPRINT" ] ; then
   # shellcheck disable=SC2002
   cat "$ssh_keyscan_result" | sudo tee -a "$known_hosts_path"
@@ -73,19 +74,8 @@ else
   cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
-    if [ -z "$convert_format" ] ; then
-      # check to verify if -E option is supported by ssh command
-      set +e
-      ssh-keygen -l -f "$ssh_key_path" -E md5 2>/dev/null
-      result=$?
-      set -e
-      convert_format=1
-      if [ $result -ne 0 ] ; then
-        echo "ssh-keygen doesn't support -E option"
-        convert_format=0
-      fi
-    fi
-    if [ $convert_format -eq 1 ] ; then
+
+    if [ "$WERCKER_ADD_TO_KNOWN_HOSTS_USE_MD5" = "true" ]; then
         ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" -E md5 | awk '{print $2}')
     else
         ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" | awk '{print $2}')
