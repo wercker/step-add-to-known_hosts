@@ -7,6 +7,8 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 
 [![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
+The fingerprint has to be in MD5/hex format, starting from the OpenSSH version 6.8 the fingerprints are reported by default in SHA256/Base64, to get the MD5/hex version we use the new FingerprintHash flag of the ssk-keygen command, that flag is supported by the OpneSSH 6.8 version.
+
 ## GitHub
 
 The following example adds GitHub's SSH key to the known_hosts file, using the
@@ -63,7 +65,7 @@ deploy:
 
 ## FAQ
 
-__ Step fails with the message: "... Cause: ssh-client software probably not installed." __
+__Step fails with the message: "... Cause: ssh-client software probably not installed."__
 
 It looks like there's no ssh client software installed. This is probably resolved by adding an install-packages step that installs an openssh-client (works on ubuntu/debian based
 containers):
@@ -76,6 +78,24 @@ build:
     - add-to-known_hosts:
         ...
 ```
+
+__Step fails with the message: "...unknown option -- E"__
+
+It looks like the OpenSSH version is older than OpenSSH 6.8 so the new FingerprintHash flag (-E) is not supported, to fix the issue you can update the version of OpenSSH or downgrade the version of the step, to do that in your wercker.yml write you can specify the version you want to use, for example:
+
+```
+- add-to-known_hosts@2.0.1:
+     hostname: <HOSTNAME>
+     fingerprint: <FINGERPRINT>
+
+```
+
+__Step fails with the message "...Skipped adding a key to known_hosts, it did not match the fingerprint (SHA256:...)"__
+
+It looks like that the fingerprint is reported in the format SHA256/base64, to fix the issue if the OpenSSH version is equal or greater than 6.8 you can try to use the 2.0.3 version of the step which converts the format from SHA256/base64 to MD5/hex.
+If you have the same error, then please verify that you put the correct fingerprint in your wercker.yml file.
+
+If it is not possible to upgrade the version of OpenSSH you can specify in your wercker.yml the fingerprint in the SHA256/base64 format.
 
 ## Getting a fingerprint
 
