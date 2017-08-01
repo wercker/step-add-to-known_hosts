@@ -5,6 +5,8 @@ A wercker step to use ssh-keyscan to add a host to the known_hosts file. This st
 
 **Important!** Use the `fingerprint` parameter, otherwise a man-in-the-middle attack is possible.
 
+Please note that if you run OpenSSH version equals or greater than 6.8 the fingerprint is reported by default in the `SHA256/base64` format.
+
 [![wercker status](https://app.wercker.com/status/85d1e231bf48bd1b3b7d9a2073a6f75a/m "wercker status")](https://app.wercker.com/project/bykey/85d1e231bf48bd1b3b7d9a2073a6f75a)
 
 ## GitHub
@@ -19,6 +21,15 @@ correct fingerprint (https://help.github.com/articles/what-are-github-s-ssh-key-
     type: rsa
 ```
 
+SHA256/base64 format:
+
+```yaml
+- add-to-known_hosts:
+    hostname: github.com
+    fingerprint: nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
+    type: rsa
+```
+
 ## Bitbucket
 
 The following example adds Bitbucket's SSH key to the known_hosts file, using
@@ -30,6 +41,16 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
     fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
     type: rsa
 ```
+
+SHA256/base64 format:
+
+```yaml
+- add-to-known_hosts:
+    hostname: bitbucket.org
+    fingerprint: zzXQOXSRBEiUtuE8AikJYKwbHaxvSc0ojez9YXaGp1A
+    type: rsa
+```
+
 ## Dependencies
 
 - `mktemp`
@@ -49,10 +70,17 @@ the correct fingerprint (https://confluence.atlassian.com/bitbucket/use-the-ssh-
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
 * `timeout` (optional) Set timeout for connection attempts in `ssh-keyscan` (default: `10` seconds).
+* `use-md5` (optional) Set to `true` to use `MD5/hex` format for the key
+fingerprint. Please note that if you are using OpenSSH version equal or
+greater than 6.8 the fingerprint are reported in `SHA256/base64` format by
+default, that means that if you have your key fingerprint specified in
+`MD5/hex` format you have either to change your wercker.yml and specify the
+`SHA256` format of your key fingerprint or set the `use-md5` parameter to
+`true` (default: `false`).
 
 ## Example
 
-Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`
+Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`, using OpenSSH version < 6.8
 
 ``` yaml
 deploy:
@@ -62,9 +90,20 @@ deploy:
         fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
 ```
 
+Probe the host `ssh.example.com` for it's public key and see if the fingerprint matches `ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd`, using OpenSSH version >= 6.8
+
+``` yaml
+deploy:
+  steps:
+    - add-to-known_hosts:
+        hostname: ssh.example.com
+        use-md5: "true"
+        fingerprint: ce:83:e9:7d:02:a4:e3:63:3f:8a:07:cc:d5:d9:bb:cd
+```
+
 ## FAQ
 
-__ Step fails with the message: "... Cause: ssh-client software probably not installed." __
+__Step fails with the message: "... Cause: ssh-client software probably not installed."__
 
 It looks like there's no ssh client software installed. This is probably resolved by adding an install-packages step that installs an openssh-client (works on ubuntu/debian based
 containers):
@@ -106,6 +145,12 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Changelog
+
+### 2.0.4
+- Add the `use-md5` option to force the use of the `-E` flag in the ssh-keygen command.
+
+### 2.0.3
+- bug fix: Add the `-E` flag to the ssh-keygen command to report the fingerprint in the `MD5/hex` format.
 
 ### 2.0.2
 
