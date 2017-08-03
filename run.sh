@@ -49,6 +49,9 @@ fi
 
 ssh_keyscan_command="ssh-keyscan -t $types"
 
+if [ -n "$WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT" ]; then
+  ssh_keyscan_command="$ssh_keyscan_command -T $WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT"
+fi
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_PORT" ] ; then
     ssh_keyscan_command="$ssh_keyscan_command $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"
@@ -74,7 +77,6 @@ else
   cat "$ssh_keyscan_result" | sed "/^ *#/d;s/#.*//" | while read ssh_key; do
     ssh_key_path=$(mktemp)
     echo "$ssh_key" > "$ssh_key_path"
-
     if [ "$WERCKER_ADD_TO_KNOWN_HOSTS_USE_MD5" = "true" ]; then
         ssh_key_fingerprint=$(ssh-keygen -l -f "$ssh_key_path" -E md5 | awk '{print $2}')
     else
