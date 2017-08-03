@@ -37,12 +37,6 @@ else
   types="rsa,dsa,ecdsa"
 fi
 
-if [ -n "$WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT" ]; then
-  timeout="$WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT"
-else
-  timeout=10
-fi
-
 # Check if ssh-keyscan command exists
 set +e
 hash ssh-keyscan 2>/dev/null
@@ -53,8 +47,11 @@ if [ $result -ne 0 ] ; then
   fail "ssh-keyscan command not found. Cause: ssh-client software probably not installed."
 fi
 
-ssh_keyscan_command="ssh-keyscan -t $types -T $timeout"
+ssh_keyscan_command="ssh-keyscan -t $types"
 
+if [ -n "$WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT" ]; then
+  ssh_keyscan_command="$ssh_keyscan_command -T $WERCKER_ADD_TO_KNOWN_HOSTS_TIMEOUT"
+fi
 
 if [ ! -n "$WERCKER_ADD_TO_KNOWN_HOSTS_PORT" ] ; then
     ssh_keyscan_command="$ssh_keyscan_command $WERCKER_ADD_TO_KNOWN_HOSTS_HOSTNAME"

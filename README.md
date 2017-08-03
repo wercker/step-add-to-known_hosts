@@ -69,7 +69,7 @@ SHA256/base64 format:
 * `type` (optional) Scan for these key types (default: `rsa,dsa,ecdsa`).
 * `port` (optional) Probe the ssh server on the following port.
 * `local` (optional) Set to `true` to add the host to `$HOME/.ssh/known_hosts` file instead of `/etc/ssh/ssh_known_hosts` (default: `false`).
-* `timeout` (optional) Set timeout for connection attempts in `ssh-keyscan` (default: `10` seconds).
+* `timeout` (optional) Set the timeout for connection attempts in `ssh-keyscan`.
 * `use-md5` (optional) Set to `true` to use `MD5/hex` format for the key
 fingerprint. Please note that if you are using OpenSSH version equal or
 greater than 6.8 the fingerprint are reported in `SHA256/base64` format by
