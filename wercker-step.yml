@@ -1,5 +1,5 @@
 name: add-to-known_hosts
-version: 2.0.4
+version: 2.1.0
 description: A wercker step to use ssh-keyscan to add a host to the known_hosts file.
 keywords:
   - ssh-keygen
