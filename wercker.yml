@@ -1,5 +1,14 @@
-box: wercker/ubuntu12.04-nodejs0.10
+box: ubuntu:rolling
+
 build:
-    steps:
-        - validate-wercker-step
-        - shellcheck
+  steps:
+    - shellcheck
+
+publish:
+  steps:
+    - install-packages:
+        packages: ca-certificates
+
+    - publish-step:
+        auth_token: $STEPS_AUTH_TOKEN
+        owner: wercker
