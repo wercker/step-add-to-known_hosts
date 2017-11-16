@@ -1,0 +1,29 @@
+name: add-to-known_hosts
+version: 3.0.0
+summary: A wercker step to use ssh-keyscan to add a host to the known_hosts file.
+tags:
+  - ssh-keygen
+  - ssh-keyscan
+  - known_hosts
+properties:
+- name: hostname
+  type: string
+  required: true
+- name: port
+  type: string
+  required: false
+- name: fingerprint
+  type: string
+  required: false
+- name: type
+  type: string
+  required: true
+- name: local
+  type: bool
+  required: false
+- name: timeout
+  type: string
+  required: false
+- name: use-md5
+  type: bool
+  required: false
